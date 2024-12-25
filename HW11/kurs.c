@@ -106,7 +106,7 @@ void fread_temperature_data(void)//(temperature_date a, char* b, uint32_t n)
                             else
                                 minutes = (c - '0') + minutes * 10;
                         }
-				    }
+                    }
                     else
                     {
                         if(k<5)
@@ -131,71 +131,71 @@ void fread_temperature_data(void)//(temperature_date a, char* b, uint32_t n)
                 }
                 else  // конец двоеточия
                 {
-				    //printf("%d ", year);
-				    n = 0;
-				    k++;
-				}
+                    //printf("%d ", year);
+                    n = 0;
+                    k++;
+                }
             }
             else  // конец строки
             {
-			    k = 0;
-			    n = 0;
-			    if(mounth > 12 || mounth < 1) // проверка порогов месяцв
-			    {
-				    err[0] = 1;
-			        err[1] = 1;
-			        err[2] = number;
-				}
-			    if(day > 31 || day < 1) // проверка порогов дня
-			    {
-				    err[0] = 1;
-			        err[1] = 2;
-			        err[2] = number;
-				}
-			    if(hour > 24 || hour < 0) // проверка порогов часов
-			    {
-				    err[0] = 1;
-			        err[1] = 3;
-			        err[2] = number;
-				}
-			    if(minutes > 60 || minutes < 0) // проверка порогов минут
-			    {
-				    err[0] = 1;
-			        err[1] = 4;
-			        err[2] = number;
-				}
-			    
-			    if(t > 99 || t < -99) // проверка порогов температуры
-			    {
-				    err[0] = 1;
-			        err[1] = 5;
-			        err[2] = number;
-				}
-	    
-			    number++;
-			    printf("%d\t%d\t%d\t%d\t%d\t%d\n", year, mounth, day, hour,minutes,t);
-     		    //printf("%d ", year);
-			    k_t     = 1;
-			    year    = 0;
-			    mounth   = 0;
-			    day     = 0;
-			    hour    = 0;
-			    minutes = 0;
-			    t       = 0;
+                k = 0;
+                n = 0;
+                if(mounth > 12 || mounth < 1) // проверка порогов месяцв
+                {
+                    err[0] = 1;
+                    err[1] = 1;
+                    err[2] = number;
+                }
+                if(day > 31 || day < 1) // проверка порогов дня
+                {
+                    err[0] = 1;
+                    err[1] = 2;
+                    err[2] = number;
+                }
+                if(hour > 24 || hour < 0) // проверка порогов часов
+                {
+                    err[0] = 1;
+                    err[1] = 3;
+                    err[2] = number;
+                }
+                if(minutes > 60 || minutes < 0) // проверка порогов минут
+                {
+                    err[0] = 1;
+                    err[1] = 4;
+                    err[2] = number;
+                }
+                
+                if(t > 99 || t < -99) // проверка порогов температуры
+                {
+                    err[0] = 1;
+                    err[1] = 5;
+                    err[2] = number;
+                }
+        
+                number++;
+                printf("%d\t%d\t%d\t%d\t%d\t%d\n", year, mounth, day, hour,minutes,t);
+                //printf("%d ", year);
+                k_t     = 1;
+                year    = 0;
+                mounth   = 0;
+                day     = 0;
+                hour    = 0;
+                minutes = 0;
+                t       = 0;
 
-			    if(k>5)       //проверка на лишнюю запись
-			    {
-			        err[0] = 1;
-			        err[2] = number;
-			    }
-			    
-			    if(err[0] == 1)
-			        printf("\nerror in stroke = %d position error = %d\n", err[2], err[1]);
-			    
-			    err[0] = 0;
-			    err[1] = 0;
-			    err[2] = 0;
-			}
+                if(k>5)       //проверка на лишнюю запись
+                {
+                    err[0] = 1;
+                    err[2] = number;
+                }
+                
+                if(err[0] == 1)
+                    printf("\nerror in stroke = %d position error = %d\n", err[2], err[1]);
+                
+                err[0] = 0;
+                err[1] = 0;
+                err[2] = 0;
+            }
         }
     fclose(f);
 }
