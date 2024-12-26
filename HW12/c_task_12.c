@@ -26,12 +26,12 @@ int main(int argc, char* argv[])
 
             if(cmd == 'f')
             {
-			    fp = fopen(str, "r");
-			    if(fp == 0)
-			        printf("\ndon't open file %s", str);
-			    else
-			        printf("\nfile %s is open", str);
-			}
+                fp = fopen(str, "r");
+                if(fp == 0)
+                    printf("\ndon't open file %s", str);
+                else
+                    printf("\nfile %s is open", str);
+            }
             
             if(cmd == 'y')
             {
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
                 //printf("\n%d",year);
                 if(year < 0 || year > 2022 || j2 != 1)
                     printf("\nerror input year");    
-			}
+            }
 
             if(cmd == 'c')
             {
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
                     j2 = min_t_year_temperature_data(fp, a, year, n_blok);
                 else
                     printf("\nerror command");
-			}
+            }
 
             if(cmd == 'm')
             {
@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
                     month = 12;
                 else
                     printf("\nerror month in command");
-			}
+            }
 
             if(str[0]=='-')
             {
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
                     printf("\n\n*.* -c max_t_year -y 2012 -f data2.csf\n");
                     
                     
-                }           		  
+                }                     
                 if(str[1]=='f')
                     cmd = 'f';
                 if(str[1]=='c')
@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
                 if(str[1]=='m')
                     cmd = 'm';
             }
-	    }
+        }
     
     
 
