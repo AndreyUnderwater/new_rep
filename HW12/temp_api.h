@@ -21,6 +21,12 @@ typedef struct
     int16_t   t;
 } temperature_data;
 
+//функция записи промежуточного файла с исправными полями. Число структур в n
+void t_save_file_temperature_data(FILE* f, FILE* f2, temperature_data* a, uint32_t n);
+
+//функция расчета мин макс и средней температуры по всему файлу. Число структур в n
+int t_file_temperature_data(FILE*, temperature_data*, uint32_t);
+
 //функция расчета минимальной температуры за год. Ищет в переданном массиве структур. Число структур в n
 int min_t_year_temperature_data(FILE*, temperature_data*, int year, uint32_t n);
 

@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 
     FILE *fp;
     int j2, year = 2021, month = 1;
-    //char s[] = "temperature_big.csv";
+    char s[30] = {0}; //name file
     //char s[] = "temperature_big.csv";
     uint32_t n_blok = 1000;
     float tmp2 = 0;
@@ -20,21 +20,30 @@ int main(int argc, char* argv[])
     temperature_data a[n_blok];
     
     if(argc>1)
+    {
         for(int i = 1; i < argc; i++)
         {
             char* str = argv[i];
 
             if(cmd == 'f')
             {
+                
+                strcpy(s, str);
+                //printf("\n%s", str);
                 fp = fopen(str, "r");
                 if(fp == 0)
                     printf("\ndon't open file %s", str);
                 else
+                {
                     printf("\nfile %s is open", str);
+                    if(argc == 3)
+                        t_file_temperature_data(fp, a, 1000);
+                }
             }
             
             if(cmd == 'y')
             {
+                //printf("\n%s", str);
                 j2 = sscanf(str,"%d",&year);
                 //printf("\n%d",year);
                 if(year < 0 || year > 2022 || j2 != 1)
@@ -121,6 +130,8 @@ int main(int argc, char* argv[])
                     printf("\nerror month in command");
             }
 
+            cmd = 0;
+            
             if(str[0]=='-')
             {
                 if(str[1]=='h')
@@ -149,9 +160,27 @@ int main(int argc, char* argv[])
                     cmd = 'y';
                 if(str[1]=='m')
                     cmd = 'm';
+               if(str[1]=='e')
+               {
+                   //printf("\nerror open file%d",fp); 
+                   FILE* fp2;
+                   fp2 = fopen("temp.tmp", "w");
+                   t_save_file_temperature_data(fp, fp2, a, 1000);
+                   fclose(fp);
+                   fclose(fp2);
+                   fp = fopen(s, "w");
+                   fp2 = fopen("temp.tmp", "r");
+                   t_save_file_temperature_data(fp2, fp, a, 1000);
+                   fclose(fp);
+                   fclose(fp2);
+               }
             }
         }
-    
+    }
+    else
+    {
+        printf("\nfor more information input parameter -h");
+    }
     
 
     
@@ -165,6 +194,7 @@ int main(int argc, char* argv[])
     //tmp2 = min_t_mounth_temperature_data(f, a, january, 2021, 100);
     //min_t_year_temperature_data(f, a, 2021, 1000);
 
+    
     fclose(fp);
     return 0;
 }

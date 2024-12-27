@@ -5,6 +5,91 @@
 
 
 
+//функция записи промежуточного файла с исправными полями. Число структур в n
+void t_save_file_temperature_data(FILE* f, FILE* f2, temperature_data* a, uint32_t n)
+{
+    uint32_t number = 0, tmp;
+    uint32_t t_seek[1], kol_str[1], n_blok = 0;
+
+    t_seek[0] = 0;
+    //t_seek[0]  - число след позиции в файле, читает блоками по n
+    //kol_str[0] - кол-во прочитанных без ошибок строк файла
+    //n_blok     - кол-во блоков, для правильного отображения ошибочной строки
+    
+    while(tmp != -1)
+    {
+        tmp = fread_temperature_data(f, a,  t_seek[0],  n, t_seek, kol_str, n_blok);
+        
+        number += kol_str[0];
+        t_seek[0]--;
+        n_blok++;
+
+        for(int i = 0; i < kol_str[0]; i++)
+        {
+            fprintf(f2,"%d",a[i].year);
+            fprintf(f2,";");
+            fprintf(f2,"%d",a[i].mounth);
+            fprintf(f2,";");
+            fprintf(f2,"%d",a[i].day);
+            fprintf(f2,";");
+            fprintf(f2,"%d",a[i].hour);
+            fprintf(f2,";");
+            fprintf(f2,"%d",a[i].minutes);
+            fprintf(f2,";");
+            fprintf(f2,"%d",a[i].t);
+            fprintf(f2,"\n");
+        }
+    }
+
+    printf("\nwrite %d strok in file",number);
+}
+
+
+
+//функция расчета мин макс и средней температуры по всему файлу. Число структур в n
+int t_file_temperature_data(FILE* f, temperature_data* a, uint32_t n)
+{
+    int min_t = 200;
+    int max_t = -200;
+    int summ_t = 0;
+    uint32_t number = 0, tmp;
+    uint32_t t_seek[1], kol_str[1], n_blok = 0;
+    char err = 0;
+
+    t_seek[0] = 0;
+    //t_seek[0]  - число след позиции в файле, читает блоками по n
+    //kol_str[0] - кол-во прочитанных без ошибок строк файла
+    //n_blok     - кол-во блоков, для правильного отображения ошибочной строки
+    
+    while(tmp != -1)
+    {
+        tmp = fread_temperature_data(f, a,  t_seek[0],  n, t_seek, kol_str, n_blok);
+        
+        number += kol_str[0];
+        t_seek[0]--;
+        n_blok++;
+        for(int i=0; i<kol_str[0]; i++)
+        {
+            if(min_t > a[i].t)
+            {
+                min_t = a[i].t;
+            }
+            if(max_t < a[i].t)
+            {
+                max_t = a[i].t;
+            }
+            summ_t += a[i].t;
+        }
+    }
+    printf("\nmin    temperature all file = %d",min_t);
+    printf("\nmax    temperature all file = %d",max_t);
+    printf("\nmiddle temperature all file = %f",(float)summ_t/(float)number);
+    printf("\nread %d strok in input file",number);
+
+    return 0;
+}
+
+
 //функция расчета минимальной температуры за год. Ищет в переданном массиве структур. Число структур в n
 int min_t_year_temperature_data(FILE* f, temperature_data* a, int year, uint32_t n)
 {

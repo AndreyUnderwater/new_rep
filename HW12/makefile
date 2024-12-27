@@ -1,7 +1,7 @@
-all: prog.exe
-prog.exe: c_task_12.o temp_api.o
-	gcc -o prog.exe c_task_12.o temp_api.o
-c_task_12.o: c_task_12.c
-	gcc -c c_task_12.c
-temp_api.o: temp_api.c
-	gcc -c temp_api.c
+all: p.exe
+p.exe: p.o function.o
+	gcc -o p.exe p.o function.o
+p.o: p.c
+	gcc -c p.c
+function.o: function.c
+	gcc -c function.c
